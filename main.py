@@ -7,7 +7,7 @@ import helper
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-bag_size = 16
+bag_size = 128
 num_features = 15
 noise_dim = 11
 num_classes = 11
@@ -36,8 +36,8 @@ class generator_model(tf.keras.Model):
 class discriminator_model(tf.keras.Model):
     def __init__(self):
         super(discriminator_model, self).__init__()
-        self.dense1 = layers.Dense(16)
-        self.dense2 = layers.Dense(16)
+        self.dense1 = layers.Dense(128)
+        self.dense2 = layers.Dense(128)
         self.dense3 = layers.Dense(num_classes)
         self.batch_norm = layers.BatchNormalization()
         self.leaky = layers.LeakyReLU()
@@ -77,6 +77,7 @@ def discriminator_loss(prop, real_result, fake_result):
         tf.nn.softplus(loss_fake))
 
     return gan_loss + 1000 * llp_loss
+    # return llp_loss
 
 
 trainX, trainY, testX, testY = helper.load_data()
